@@ -24,7 +24,7 @@
 
 주문 요청 메시지 띄우기
 
-```java
+```
 <애피타이저>
 양송이수프(6,000), 타파스(5,500), 시저샐러드(8,000)
 
@@ -178,61 +178,7 @@ View에서 사용할 데이터라면 getter 메서드를 통해 데이터를 전
 
 ## 8.객체는 객체스럽게 사용
 
-**Lotto** 클래스는 **numbers**를 상태 값으로 가지는 객체이다. 그런데 이 객체는 로직에 대한 구현은 하나도 없고, **numbers**에 대한 getter 메서드만을 가진다.
-
-```java
-public class Lotto {
-    private final List<Integer> numbers;
-    
-    public Lotto(List<Integer> numbers) {
-        this.numbers = numbers;
-    }
-
-    public int getNumbers() {
-        return numbers;
-    }
-}
-
-public class LottoGame {
-    public void play() {
-        Lotto lotto = new Lotto(...);
-
-        // 숫자가 포함되어 있는지 확인한다.
-        lotto.getNumbers().contains(number);
-        
-        // 당첨 번호와 몇 개가 일치하는지 확인한다.
-        lotto.getNumbers().stream()...
-    }
-}
-```
-
----
-
-**Lotto**에서 데이터를 꺼내지(get) 말고 메시지를 던지도록 구조를 바꿔 데이터를 가지는 객체가 일하도록 한다.
-
-```java
-public class Lotto {
-    private final List<Integer> numbers;
-
-    public boolean contains(int number) {
-        // 숫자가 포함되어 있는지 확인한다.
-        ...
-    }
-    
-    public int matchCount(Lotto other) {
-        // 당첨 번호와 몇 개가 일치하는지 확인한다.
-        ...
-    }
-}
-
-public class LottoGame {
-    public void play() {
-        Lotto lotto = new Lotto(...);
-        lotto.contains(number);
-        lotto.matchCount(...); 
-    }
-}
-```
+ 데이터를 꺼내지(get) 말고 메시지를 던지도록 구조를 바꿔 데이터를 가지는 객체가 일하도록 한다.
 
 ---
 
@@ -242,31 +188,8 @@ public class LottoGame {
 
 필드(인스턴스 변수)의 수가 많은 것은 객체의 복잡도를 높이고, 버그 발생 가능성을 높일 수 있다. 필드에 중복이 있거나, 불필요한 필드가 없는지 확인해 필드의 수를 최소화한다.
 
-예를 들어 총상금 및 수익률을 구하는 다음 객체를 보자.
-
-```java
-public class LottoResult {
-    private Map<Rank, Integer> result = new HashMap<>();
-    private double profitRate;
-    private int totalPrize;
-}
-```
-
 ---
 
-위 객체의 **profitRate**와 **totalPrize**는 등수 별 당첨 내역(**result**)만 있어도 모두 구할 수 있는 값이다. 따라서 위 객체는 다음과 같이 하나의 필드만으로 구현할 수 있다.
-
-```java
-public class LottoResult {
-    private Map<Rank, Integer> result = new HashMap<>();
-
-    public double calculateProfitRate() { ... }
-    
-    public int calculateTotalPrize() { ... }
-}
-```
-
----
 
 ## 10.성공하는 케이스 뿐만 아니라 예외에 대한 케이스도 테스트
 
@@ -283,89 +206,15 @@ public class LottoResult {
 
 ## 13.단위 테스트하기 어려운 코드를 단위 테스트
 
-아래 코드는 **Random** 때문에 **Lotto**에 대한 단위 테스트를 하기 힘들다. 단위 테스트가 가능하도록 리팩터링한다면 어떻게 하는 것이 좋을까?
-
-```java
-import camp.nextstep.edu.missionutils.Randoms;
-
-public class Lotto {
-    private List<Integer> numbers;
-
-    public Lotto() {
-        this.numbers = Randoms.pickUniqueNumbersInRange(1, 45, 6);
-    }
-}
-
-——————
-
-public class LottoMachine {
-    public void execute() {
-        Lotto lotto = new Lotto();
-    }
-}
-```
-
----
+**Random** 때문에 **Lotto**에 대한 단위 테스트를 하기 힘들다. 단위 테스트가 가능하도록 리팩터링한다면 어떻게 하는 것이 좋을까?
 
 올바른 로또 번호가 생성되는 것을 테스트하기 어렵다. 테스트하기 어려운 것을 클래스 내부가 아닌 외부로 분리하는 시도를 해 본다.
-
-```java
-public class Lotto {
-    private List<Integer> numbers;
-
-    public Lotto(List<Integer> numbers) {
-        this.numbers = numbers;
-    }
-}
-
-——————
-
-import camp.nextstep.edu.missionutils.Randoms;
-
-public class LottoMachine {
-    public void execute() {
-        List<Integer> numbers = Randoms
-            .pickUniqueNumbersInRange(1, 45, 6);
-        Lotto lotto = new Lotto(numbers);
-    }
-}
-```
-
----
-
-위 코드는 A 상황을 B로 바꾼 것이다.
-
-A.
-
-Application(테스트하기 어려움)
-
-⬇️
-
-LottoMachine(테스트하기 어려움)
-
-⬇️
-
-Lotto(테스트하기 어려움) ➡️ Randoms(테스트하기 어려움)
-
----
-
-B.
-
-Application(테스트하기 어려움)
-
-⬇️
-
-LottoMachine(테스트하기 어려움) ➡️ Randoms(테스트하기 어려움)
-
-⬇️
-
-Lotto(테스트하기 쉬움)
 
 ---
 
 (**참고**. [메서드 시그니처를 수정하여 테스트하기 좋은 메서드로 만들기](https://tecoble.techcourse.co.kr/post/2020-05-07-appropriate_method_for_test_by_parameter/))
 
-이처럼 단위 테스트를 할 때 테스트하기 어려운 부분은 분리하고 테스트 가능한 부분을 단위 테스트한다. 테스트하기 어려운 부분은 단위 테스트하지 않아도 된다. 남은 **LottoMachine**은 어떻게 테스트하기 쉽게 바꿀 수 있을지 고민해 본다.
+이처럼 단위 테스트를 할 때 테스트하기 어려운 부분은 분리하고 테스트 가능한 부분을 단위 테스트한다. 테스트하기 어려운 부분은 단위 테스트하지 않아도 된다. 
 
 ## 14.private 함수를 테스트 하고 싶다면 클래스(객체) 분리를 고려
 
