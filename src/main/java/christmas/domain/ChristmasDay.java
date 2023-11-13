@@ -5,7 +5,7 @@ import christmas.exception.DayRangeException;
 
 import static christmas.domain.Constant.*;
 
-public class ChristmasDayEvent {
+public class ChristmasDay {
 
     public boolean dayCheck(int date) {
         validateDay(date);

@@ -1,6 +1,6 @@
 package christmas.controller;
 
-import christmas.domain.ChristmasDayEvent;
+import christmas.domain.ChristmasDay;
 import christmas.view.InputView;
 
 import java.util.Calendar;
@@ -8,13 +8,13 @@ import java.util.GregorianCalendar;
 
 import static christmas.domain.Constant.YEAR;
 
-public class Event {
+public class EventController {
     private InputView inputView;
 
-    public void christmasEventCheck() {
+    public void christmasDayCheck() {
         int day = inputView.dayQuestion();
-        ChristmasDayEvent christmasDayEvent = new ChristmasDayEvent();
-        boolean dayChecked = christmasDayEvent.dayCheck(day);
+        ChristmasDay christmasDay = new ChristmasDay();
+        boolean dayChecked = christmasDay.dayCheck(day);
         dayChecked(dayChecked, day);
     }
 
@@ -39,6 +39,7 @@ public class Event {
     }
 
     private void weekendEvent() {
+
     }
 
     private void weekEvent() {
