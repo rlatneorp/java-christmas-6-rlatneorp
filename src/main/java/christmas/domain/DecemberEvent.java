@@ -7,10 +7,11 @@ import static christmas.domain.Constant.MIN_DAY;
 
 public class DecemberEvent {
 
-    public void validateDecemberDays(int date) {
+    public boolean validateDecemberDays(int date) {
         if (!(MIN_DAY <= date && date <= MAX_DAY)) {
             throw new DayRangeException();
         }
+        return true;
     }
 
 

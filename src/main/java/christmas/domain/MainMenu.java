@@ -6,7 +6,7 @@ public enum MainMenu {
     해산물파스타(35000),
     크리스마스파스타(25000);
 
-    private final int mainMåenuPrice;
+    private int mainMenuPrice;
 
 
 }

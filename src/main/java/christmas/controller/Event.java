@@ -10,13 +10,19 @@ public class Event {
     public void decemberEventCheck() {
         int day = inputView.dayQuestion();
         DecemberEvent decemberEvent = new DecemberEvent();
-        decemberEvent.validateDecemberDays(day);
+        boolean dayChecked = decemberEvent.validateDecemberDays(day);
+        if (dayChecked) {
+
+        }
     }
 
     public void christmasEventCheck() {
         int day = inputView.dayQuestion();
         ChristmasDayEvent christmasDayEvent = new ChristmasDayEvent();
-        christmasDayEvent.validateChristmasDays(day);
+        boolean dayChecked = christmasDayEvent.validateChristmasDays(day);
+        if (dayChecked) {
+
+        }
     }
 
 }
