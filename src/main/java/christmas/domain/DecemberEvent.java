@@ -8,7 +8,7 @@ import static christmas.domain.Constant.MIN_DAY;
 public class DecemberEvent {
 
     public void validateDecemberDays(int date) {
-        if (!(MIN_DAY <= date <= MAX_DAY)) {
+        if (!(MIN_DAY <= date && date <= MAX_DAY)) {
             throw new DayRangeException();
         }
     }
