@@ -1,20 +1,23 @@
 package christmas.domain;
 
-import static christmas.domain.Constant.*;
+/*
+숫자별로 메뉴 카테고리를 정함
+에피타이져 = 1, 메인메뉴 = 2, 디저트 = 3, 음료 = 4
+ */
 
 public enum Menu {
-    양송이수프(APPETIZER, 6000),
-    타파스(APPETIZER, 5500),
-    시저샐러드(APPETIZER, 8000),
-    티본스테이크(MAIN_MENU, 60000),
-    바비큐립(MAIN_MENU, 54000),
-    해산물파스타(MAIN_MENU, 35000),
-    크리스마스파스타(MAIN_MENU, 25000),
-    초코케이크(DISERT, 15000),
-    아이스크림(DISERT, 5000),
-    제로콜라(DRINK, 3000),
-    레드와인(DRINK, 60000),
-    샴페인(DRINK, 25000);
+    MUSHROOM_SOUP(1, 6000),
+    TAPAS(1, 5500),
+    SALAD(1, 8000),
+    T_STEAK(2, 60000),
+    RIB(2, 54000),
+    SEAFOOD_PASTA(2, 35000),
+    CHRISTMAS_PASTA(2, 25000),
+    CHOCO_CAKE(3, 15000),
+    ICE_CREAM(3, 5000),
+    ZERO_COKE(4, 3000),
+    RED_WINE(4, 60000),
+    CHAMPAGNE(4, 25000);
 
     private final int menuKind;
     private final int menuPrice;
@@ -24,6 +27,12 @@ public enum Menu {
         this.menuPrice = menuPrice;
     }
 
+    public boolean isType(int type) {
+        return this.menuKind == type;
+    }
 
+    public int price() {
+        return this.menuPrice;
+    }
 
 }
