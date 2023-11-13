@@ -21,9 +21,6 @@ public class Discount {
             }
 
         }
-
-
-
         return totalDiscount;
     }
 }

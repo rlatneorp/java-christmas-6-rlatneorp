@@ -1,5 +1,9 @@
 package christmas.domain;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+
 import static christmas.domain.Constant.*;
 
 public class Order {
@@ -36,4 +40,30 @@ public class Order {
     public int calculatePrice() {
         return menu.price() * amount;
     }
+
+    public boolean presentChampagne(List<Order> orders) {
+        int totalPrice = orders.stream()
+                .mapToInt(order -> order.menu.price() * order.amount)
+                .sum();
+
+        return totalPrice >= CHAMPAGNE_PRESENT_PRICE;
+    }
+
+    public int calculateDiscountSundayChristmas(int day, List<Order> orders) {
+        Calendar calendar = new GregorianCalendar(YEAR, Calendar.DECEMBER, day);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        int totalDiscount = 0;
+        if (dayOfWeek == Calendar.SUNDAY || day == CHRISTMAS_DAY) {
+            int discountPerDay = CHRISTMAS_START_DISCOUNT + (day - 1) * DAILY_INCREMENT;
+            for (Order order : orders) {
+                totalDiscount += discountPerDay * order.amount;
+            }
+        }
+        if (dayOfWeek == Calendar.SUNDAY && day != CHRISTMAS_DAY) {
+            totalDiscount += SPECIAL_DISCOUNT;
+        }
+        return totalDiscount;
+    }
+}
+
 }
