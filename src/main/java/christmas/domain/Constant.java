@@ -22,5 +22,9 @@ public class Constant {
     public static final int SPECIAL_DISCOUNT = 1000;
     public static final int CHAMPAGNE_PRESENT_PRICE = 120000;
     public static final int CHAMPAGNE_PRICE = 25000;
+    public static final int CHRISTMAS_START_DISCOUNT = 1000;
+    public static final int DAILY_INCREMENT = 100;
+    public static final int DESERT = 3;
+    public static final int MAIN_MENU = 2;
 
 }

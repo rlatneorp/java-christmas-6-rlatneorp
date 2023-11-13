@@ -1,6 +1,5 @@
 package christmas.domain;
 
-
 import christmas.exception.DayRangeException;
 
 import static christmas.domain.Constant.*;

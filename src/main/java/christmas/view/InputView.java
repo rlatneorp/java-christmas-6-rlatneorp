@@ -1,8 +1,10 @@
 package christmas.view;
 
 import camp.nextstep.edu.missionutils.Console;
+import christmas.domain.Menu;
 import christmas.exception.NoValidateException;
 
+import javax.swing.*;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -25,7 +27,7 @@ public class InputView {
         return Integer.parseInt(dayAnswer);
     }
 
-    public List<String> orderMenuNames() {
+    public List<Menu> orderMenuNames() {
         System.out.println(MENU_QUESTION);
         String menus = Console.readLine();
         List<Integer> amounts = orderNumberValues(menus);
@@ -42,11 +44,12 @@ public class InputView {
                 .collect(Collectors.toList());
     }
 
-    private String menuName(String menuAmount) {
+    private Menu menuName(String menuAmount) {
         if (!menuAmount.contains(BAR)) {
             throw new NoValidateException();
         }
-        return menuAmount.substring(0, menuAmount.lastIndexOf(BAR)).trim();
+        String menuName = menuAmount.substring(0, menuAmount.lastIndexOf(BAR)).trim();
+        return Menu.menuName(menuName);
     }
 
     private int orderNumber(String menuAmount) {

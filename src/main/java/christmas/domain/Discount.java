@@ -1,39 +1,29 @@
 package christmas.domain;
 
-import static christmas.domain.Constant.*;
+import christmas.controller.EventController;
+
+import java.util.List;
+
+import static christmas.domain.Constant.WEEKDAY_DESSERT_DISCOUNT;
+import static christmas.domain.Constant.WEEKEND_MAIN_DISCOUNT;
 
 public class Discount {
-    private Menu menu;
-    private int amount;
 
-    public Discount(Menu menu, int amount) {
-        this.menu = menu;
-        this.amount = amount;
-    }
+    public static int calculateTotalDiscount(List<Menu> orders, int day) {
+        int totalDiscount = 0;
 
-    public boolean isDessert() {
-        return menu.isType(3);
-    }
+        for (Menu order : orders) {
+            if (EventController.isWeekday(day) && order.isMainMenu()) {
+                totalDiscount += WEEKEND_MAIN_DISCOUNT;
+            }
+            if (EventController.isWeekday(day) && order.isDessert()) {
+                totalDiscount += WEEKDAY_DESSERT_DISCOUNT;
+            }
 
-    public boolean isMainMenu() {
-        return menu.isType(2);
-    }
-
-    public int calculateDiscount(boolean isWeekend, boolean isSpecialDay) {
-        int discount = 0;
-        if (isWeekend && isMainMenu()) {
-            discount += WEEKEND_MAIN_DISCOUNT * amount;
-        } else if (!isWeekend && isDessert()) {
-            discount += WEEKDAY_DESSERT_DISCOUNT * amount;
         }
 
-        if (isSpecialDay) {
-            discount += SPECIAL_DISCOUNT;
-        }
-        return discount;
-    }
 
-    public int calculatePrice() {
-        return menu.price() * amount;
+
+        return totalDiscount;
     }
 }

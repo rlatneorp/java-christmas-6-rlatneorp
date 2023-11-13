@@ -5,6 +5,11 @@ package christmas.domain;
 에피타이져 = 1, 메인메뉴 = 2, 디저트 = 3, 음료 = 4
  */
 
+import java.util.Arrays;
+
+import static christmas.domain.Constant.DESERT;
+import static christmas.domain.Constant.MAIN_MENU;
+
 public enum Menu {
     MUSHROOM_SOUP(1, 6000),
     TAPAS(1, 5500),
@@ -27,12 +32,23 @@ public enum Menu {
         this.menuPrice = menuPrice;
     }
 
-    public boolean isType(int type) {
-        return this.menuKind == type;
+    public boolean isDessert() {
+        return this.menuKind == DESERT;
+    }
+
+    public boolean isMainMenu() {
+        return this.menuKind == MAIN_MENU;
     }
 
     public int price() {
         return this.menuPrice;
+    }
+
+    public static Menu menuName(String name) {
+        return Arrays.stream(Menu.values())
+                .filter(menu -> menu.name().equalsIgnoreCase(name.replace(" ", "_")))
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
     }
 
 }
