@@ -19,46 +19,49 @@ public class InputView {
     }
 
     public int dayQuestion() {
+        printHello();
         System.out.println(DAY_QUESTION);
         String dayAnswer = Console.readLine();
         return Integer.parseInt(dayAnswer);
     }
 
-    public List<String> orderMenuNameValues() {
+    public List<String> orderMenuNames() {
         System.out.println(MENU_QUESTION);
         String menus = Console.readLine();
-        orderNumberValues(menus);
+        List<Integer> amounts = orderNumberValues(menus);
         return Stream.of(menus.split(DELIMITER))
                 .map(String::trim)
                 .map(this::menuName)
                 .collect(Collectors.toList());
     }
 
-    public void orderNumberValues(String menus) {
-        Stream.of(menus.split(DELIMITER))
+    public List<Integer> orderNumberValues(String menus) {
+        return Stream.of(menus.split(DELIMITER))
                 .map(String::trim)
                 .map(this::orderNumber)
-                .collect(Collectors.toList())
+                .collect(Collectors.toList());
     }
 
-    private String menuName(String menuName) {
-        return menuName.substring(0, menuName.lastIndexOf(BAR)).trim();
-    }
-
-    private int orderNumber(String menus) {
-        String orderNumber = menus.substring(menus.lastIndexOf(BAR) + 1).trim();
-
-        if (!isNumeric(orderNumber)) {
+    private String menuName(String menuAmount) {
+        if (!menuAmount.contains(BAR)) {
             throw new NoValidateException();
         }
-        return Integer.parseInt(orderNumber);
+        return menuAmount.substring(0, menuAmount.lastIndexOf(BAR)).trim();
+    }
+
+    private int orderNumber(String menuAmount) {
+        if (!menuAmount.contains(BAR)) {
+            throw new NoValidateException();
+        }
+        String amount = menuAmount.substring(menuAmount.lastIndexOf(BAR) + 1).trim();
+        if (!isNumeric(amount)) {
+            throw new NoValidateException();
+        }
+        return Integer.parseInt(amount);
     }
 
     private boolean isNumeric(String orderNumber) {
         return orderNumber.matches("-?\\d+");
     }
-
-
-
 
 }
