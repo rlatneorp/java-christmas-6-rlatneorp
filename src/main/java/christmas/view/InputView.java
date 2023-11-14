@@ -27,12 +27,18 @@ public class InputView {
     }
 
     public int dayQuestion() {
-        System.out.println(DAY_QUESTION);
-        String dayAnswer = Console.readLine().trim();
-        validateInputIsNumberFormat(dayAnswer);
-        int day = Integer.parseInt(dayAnswer);
-        validateDay(day);
-        return day;
+        while (true) {
+            try {
+                System.out.println(DAY_QUESTION);
+                String dayAnswer = Console.readLine().trim();
+                validateInputIsNumberFormat(dayAnswer);
+                int day = Integer.parseInt(dayAnswer);
+                validateDay(day);
+                return day;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     public boolean isNumberWord(String checkedInput) {
@@ -56,10 +62,16 @@ public class InputView {
     }
 
     public String menuInput() {
-        System.out.println(MENU_QUESTION);
-        String menu = Console.readLine();
-        validateMenuVarious(menu);
-        return menu;
+        while (true) {
+            try {
+                System.out.println(MENU_QUESTION);
+                String menu = Console.readLine();
+                validateMenuVarious(menu);
+                return menu;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     public List<Menu> menuNames(String menuInput) {

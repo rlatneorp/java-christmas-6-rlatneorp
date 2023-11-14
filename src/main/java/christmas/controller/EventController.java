@@ -20,13 +20,16 @@ public class EventController {
     public void startEvent() {
         inputView.printHello();
         int day = inputView.dayQuestion();
-        String rawMenuInput = inputView.menuInput();
+        String menuInput = inputView.menuInput();
 
-        List<Menu> orderMenuNames = inputView.menuNames(rawMenuInput);
-        List<Integer> amounts = inputView.menuAmounts(rawMenuInput);
+        List<Menu> orderMenuNames = inputView.menuNames(menuInput);
+        List<Integer> amounts = inputView.menuAmounts(menuInput);
 
         List<Order> orders = createOrders(orderMenuNames, amounts);
+        processOrders(orders, day);
+    }
 
+    private void processOrders(List<Order> orders, int day) {
         OrderCalculation orderCalculation = new OrderCalculation();
         orderCalculation.processOrders(orders, day);
     }
