@@ -1,22 +1,28 @@
 package christmas.domain;
 
+import christmas.exception.NoValidateException;
+
+import java.util.Calendar;
 import java.util.List;
 
 import static christmas.domain.Constant.*;
+import static christmas.domain.DiscountCalculation.calculateTotalBenefitAmount;
+import static christmas.view.OutputView.displayOrder;
 
 public class OrderCalculation {
 
-    public void processOrders(List<Order> orders, int day) {
+    public void processOrders(List<Order> orders, int day, int month, int year) {
         validateOrder(orders);
         int totalOrderAmount = orders.stream().mapToInt(Order::totalOrderPrice).sum();
             if (totalOrderAmount < MIN_ORDER_AMOUNT) {
-                throw new IllegalArgumentException("Minimum order amount is 10,000원.");
+                throw new NoValidateException();
             }
-        int totalDiscount = DiscountCalculation.calculateTotalDiscount(orders, day, month, year);
+        int totalDiscount = DiscountCalculation.calculateTotalDiscount(orders, day, MONTH, YEAR);
         int finalPaymentAmount = totalOrderAmount - totalDiscount;
         String awardedBadge = Badge.awardBadge(finalPaymentAmount);
+        int totalBenefitAmount = calculateTotalBenefitAmount(orders, day, month, year);
 
-        displayOrder(orders, totalOrderAmount, totalDiscount, finalPaymentAmount, awardedBadge);
+        displayOrder(orders, day, totalOrderAmount, totalDiscount, totalBenefitAmount, finalPaymentAmount, awardedBadge);
     }
 
     private int calculateTotalOrderAmount(List<Order> orders) {
@@ -38,11 +44,11 @@ public class OrderCalculation {
 
     private void validateOrder(List<Order> orders) {
         if (orders.stream().anyMatch(order -> order.exceedsMaximumItems(MAX_ORDER_ITEMS))) {
-            throw new IllegalArgumentException("Cannot order more than 20 items at once.");
+            throw new NoValidateException();
         }
 
         if (orders.stream().allMatch(Order::isDrinkOnly)) {
-            throw new IllegalArgumentException("Cannot order only drinks.");
+            throw new NoValidateException();
         }
     }
 

@@ -10,18 +10,18 @@ import java.util.Arrays;
 import static christmas.domain.Constant.*;
 
 public enum Menu {
-    MUSHROOM_SOUP(1, 6000),
-    TAPAS(1, 5500),
-    SALAD(1, 8000),
-    T_STEAK(2, 60000),
-    RIB(2, 54000),
-    SEAFOOD_PASTA(2, 35000),
-    CHRISTMAS_PASTA(2, 25000),
-    CHOCO_CAKE(3, 15000),
-    ICE_CREAM(3, 5000),
-    ZERO_COKE(4, 3000),
-    RED_WINE(4, 60000),
-    CHAMPAGNE(4, 25000);
+    양송이수프(1, 6000),
+    타파스(1, 5500),
+    시저샐러드(1, 8000),
+    티본스테이크(2, 60000),
+    바비큐립(2, 54000),
+    해산물파스타(2, 35000),
+    크리스마스파스타(2, 25000),
+    초코케이크(3, 15000),
+    아이스크림(3, 5000),
+    제로콜라(4, 3000),
+    레드와인(4, 60000),
+    샴페인(4, 25000);
 
     private final int menuKind;
     private final int menuPrice;
@@ -52,6 +52,10 @@ public enum Menu {
                 .filter(menu -> menu.name().equalsIgnoreCase(name.replace(" ", "_")))
                 .findFirst()
                 .orElseThrow(IllegalArgumentException::new);
+    }
+
+    public String menuInfo() {
+        return this.name();
     }
 
 }

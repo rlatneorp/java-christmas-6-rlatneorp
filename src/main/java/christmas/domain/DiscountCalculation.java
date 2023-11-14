@@ -4,14 +4,14 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import static christmas.domain.Constant.MONTH;
 import static christmas.domain.Constant.YEAR;
-import static java.util.Calendar.MONTH;
 
 public class DiscountCalculation {
 
-    public static int calculateTotalDiscount(List<Order> orders, int day) {
+    public static int calculateTotalDiscount(List<Order> orders, int day, int month, int year) {
         int totalDiscount = 0;
-        Calendar calendar = new GregorianCalendar(YEAR, MONTH, day);
+        Calendar calendar = new GregorianCalendar(day, MONTH, YEAR);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         boolean isWeekend = (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY);
 
@@ -54,6 +54,12 @@ public class DiscountCalculation {
             return Constant.CHAMPAGNE_PRICE;
         }
         return 0;
+    }
+
+    public static int calculateTotalBenefitAmount(List<Order> orders, int day, int month, int year) {
+        int totalDiscount = calculateTotalDiscount(orders, day, month, year);
+        int champagnePresentValue = calculateChampagnePresent(orders);
+        return totalDiscount + champagnePresentValue;
     }
 
 }

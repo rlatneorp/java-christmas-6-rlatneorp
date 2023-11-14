@@ -8,8 +8,9 @@ import christmas.view.InputView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static christmas.domain.Constant.MONTH;
 import static christmas.domain.Constant.YEAR;
-import static java.util.Calendar.MONTH;
+
 
 public class EventController {
     private final InputView inputView = new InputView();

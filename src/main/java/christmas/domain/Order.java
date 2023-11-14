@@ -37,4 +37,8 @@ public class Order {
         return this.menu.calculateTotalPrice(this.amount);
     }
 
+    public String orderInfo() {
+        return menu.menuInfo() + " " + amount + "개";
+    }
+
 }

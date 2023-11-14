@@ -18,7 +18,8 @@ public class Constant {
     public static final String ZERO_COKE = "제로콜라";
     public static final String RED_WINE = "레드와인";
     public static final String CHAMPAGNE = "샴페인";
-    public static final int YEAR = 12;
+    public static final int YEAR = 2023;
+    public static final int MONTH = 11;
     public static final int WEEKDAY_DESSERT_DISCOUNT = 2023;
     public static final int WEEKEND_MAIN_DISCOUNT = 2023;
     public static final int SPECIAL_DISCOUNT = 1000;
