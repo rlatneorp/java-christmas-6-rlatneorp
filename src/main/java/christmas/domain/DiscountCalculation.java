@@ -4,16 +4,19 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import static christmas.domain.Constant.YEAR;
+import static java.util.Calendar.MONTH;
+
 public class DiscountCalculation {
 
-    public static int calculateTotalDiscount(List<Order> orders, int day, int month, int year) {
+    public static int calculateTotalDiscount(List<Order> orders, int day) {
         int totalDiscount = 0;
-        Calendar calendar = new GregorianCalendar(year, month - 1, day);
+        Calendar calendar = new GregorianCalendar(YEAR, MONTH, day);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         boolean isWeekend = (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY);
 
         totalDiscount += calculateWeekdayDessertDiscount(orders, isWeekend);
-        totalDiscount += calculateWeekendMainCourseDiscount(orders, isWeekend);
+        totalDiscount += calculateWeekendMainMenuDiscount(orders, isWeekend);
         if (day == Constant.CHRISTMAS_DAY || dayOfWeek == Calendar.SUNDAY) {
             totalDiscount += Constant.SPECIAL_DISCOUNT;
         }
@@ -32,7 +35,7 @@ public class DiscountCalculation {
                 .sum();
     }
 
-    private static int calculateWeekendMainCourseDiscount(List<Order> orders, boolean isWeekend) {
+    private static int calculateWeekendMainMenuDiscount(List<Order> orders, boolean isWeekend) {
         if (!isWeekend) {
             return 0;
         }

@@ -9,6 +9,18 @@ public class Order {
         this.amount = amount;
     }
 
+    public boolean isDrinkOnly() {
+        return menu.isDrink();
+    }
+
+    public int totalOrderPrice() {
+        return menu.calculateTotalPrice(amount);
+    }
+
+    public boolean exceedsMaximumItems(int maxItems) {
+        return amount > maxItems;
+    }
+
     public boolean isDessert() {
         return menu.isDessert();
     }

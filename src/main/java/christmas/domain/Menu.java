@@ -7,8 +7,7 @@ package christmas.domain;
 
 import java.util.Arrays;
 
-import static christmas.domain.Constant.DESERT;
-import static christmas.domain.Constant.MAIN_MENU;
+import static christmas.domain.Constant.*;
 
 public enum Menu {
     MUSHROOM_SOUP(1, 6000),
@@ -38,6 +37,10 @@ public enum Menu {
 
     public boolean isMainMenu() {
         return this.menuKind == MAIN_MENU;
+    }
+
+    public boolean isDrink() {
+        return this.menuKind == DRINK;
     }
 
     public int calculateTotalPrice(int amount) {

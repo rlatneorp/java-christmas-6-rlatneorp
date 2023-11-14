@@ -1,5 +1,7 @@
 package christmas.domain;
 
+import java.util.List;
+
 public class Constant {
     public static final int MIN_DAY = 1;
     public static final int MAX_DAY = 31;
@@ -26,6 +28,7 @@ public class Constant {
     public static final int DAILY_INCREMENT = 100;
     public static final int DESERT = 3;
     public static final int MAIN_MENU = 2;
+    public static final int DRINK = 4;
     public static final String SANTA = "산타";
     public static final String STAR = "별";
     public static final String TREE = "트리";
@@ -33,5 +36,8 @@ public class Constant {
     public static final int STAR_BADGE = 5000;
     public static final int TREE_BADGE = 10000;
     public static final int SANTA_BADGE = 20000;
+    public static final int MIN_ORDER_AMOUNT = 10000;
+    public static final int MAX_ORDER_ITEMS = 20;
+    public static final List<String> EXCLUDED_DRINKS = List.of("제로콜라", "레드와인", "샴페인");
 
 }
