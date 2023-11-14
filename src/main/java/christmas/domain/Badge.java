@@ -4,7 +4,7 @@ import static christmas.domain.Constant.*;
 
 public class Badge {
 
-    public static String awardBadge(int totalBenefitAmount) {
+    public static String giveBadge(int totalBenefitAmount) {
         if (totalBenefitAmount >= SANTA_BADGE) {
             return "산타";
         }

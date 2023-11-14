@@ -9,7 +9,7 @@ public class Order {
         this.amount = amount;
     }
 
-    public boolean isDrinkOnly() {
+    public boolean drinkOnly() {
         return menu.isDrink();
     }
 

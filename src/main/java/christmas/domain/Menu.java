@@ -49,7 +49,7 @@ public enum Menu {
 
     public static Menu menuName(String name) {
         return Arrays.stream(Menu.values())
-                .filter(menu -> menu.name().equalsIgnoreCase(name.replace(" ", "_")))
+                .filter(menu -> menu.name().equals(name))
                 .findFirst()
                 .orElseThrow(IllegalArgumentException::new);
     }
@@ -57,5 +57,4 @@ public enum Menu {
     public String menuInfo() {
         return this.name();
     }
-
 }

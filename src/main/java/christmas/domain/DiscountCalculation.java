@@ -9,23 +9,23 @@ import static christmas.domain.Constant.YEAR;
 
 public class DiscountCalculation {
 
-    public static int calculateTotalDiscount(List<Order> orders, int day, int month, int year) {
+    public static int totalDiscount(List<Order> orders, int day) {
         int totalDiscount = 0;
         Calendar calendar = new GregorianCalendar(day, MONTH, YEAR);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         boolean isWeekend = (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY);
 
-        totalDiscount += calculateWeekdayDessertDiscount(orders, isWeekend);
-        totalDiscount += calculateWeekendMainMenuDiscount(orders, isWeekend);
+        totalDiscount += weekdayDessertDiscount(orders, isWeekend);
+        totalDiscount += weekendMainMenuDiscount(orders, isWeekend);
         if (day == Constant.CHRISTMAS_DAY || dayOfWeek == Calendar.SUNDAY) {
             totalDiscount += Constant.SPECIAL_DISCOUNT;
         }
-        totalDiscount += calculateChampagnePresent(orders);
+        totalDiscount += champagnePresent(orders);
 
         return totalDiscount;
     }
 
-    private static int calculateWeekdayDessertDiscount(List<Order> orders, boolean isWeekend) {
+    private static int weekdayDessertDiscount(List<Order> orders, boolean isWeekend) {
         if (isWeekend) {
             return 0;
         }
@@ -35,7 +35,7 @@ public class DiscountCalculation {
                 .sum();
     }
 
-    private static int calculateWeekendMainMenuDiscount(List<Order> orders, boolean isWeekend) {
+    private static int weekendMainMenuDiscount(List<Order> orders, boolean isWeekend) {
         if (!isWeekend) {
             return 0;
         }
@@ -45,7 +45,7 @@ public class DiscountCalculation {
                 .sum();
     }
 
-    private static int calculateChampagnePresent(List<Order> orders) {
+    private static int champagnePresent(List<Order> orders) {
         int totalPrice = orders.stream()
                 .mapToInt(Order::calculatePrice)
                 .sum();
@@ -55,11 +55,4 @@ public class DiscountCalculation {
         }
         return 0;
     }
-
-    public static int calculateTotalBenefitAmount(List<Order> orders, int day, int month, int year) {
-        int totalDiscount = calculateTotalDiscount(orders, day, month, year);
-        int champagnePresentValue = calculateChampagnePresent(orders);
-        return totalDiscount + champagnePresentValue;
-    }
-
 }

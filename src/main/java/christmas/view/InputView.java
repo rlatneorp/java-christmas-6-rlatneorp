@@ -27,40 +27,36 @@ public class InputView {
         return Integer.parseInt(dayAnswer);
     }
 
-    public List<Menu> orderMenuNames() {
+    public String menuInput() {
         System.out.println(MENU_QUESTION);
-        String menus = Console.readLine();
-        List<Integer> amounts = orderNumberValues(menus);
-        return Stream.of(menus.split(DELIMITER))
+        return Console.readLine();
+    }
+
+    public List<Menu> menuNames(String rawInput) {
+        return Stream.of(rawInput.split(DELIMITER))
                 .map(String::trim)
                 .map(this::menuName)
                 .collect(Collectors.toList());
     }
 
-    public List<Integer> orderNumberValues(String menus) {
-        return Stream.of(menus.split(DELIMITER))
+    public List<Integer> menuAmounts(String rawInput) {
+        return Stream.of(rawInput.split(DELIMITER))
                 .map(String::trim)
-                .map(this::orderNumber)
+                .map(this::menuAmount)
                 .collect(Collectors.toList());
     }
 
-    private Menu menuName(String menuAmount) {
-        if (!menuAmount.contains(BAR)) {
-            throw new NoValidateException();
-        }
-        String menuName = menuAmount.substring(0, menuAmount.lastIndexOf(BAR)).trim();
+    private Menu menuName(String menuString) {
+        String menuName = menuString.substring(0, menuString.lastIndexOf(BAR)).trim();
         return Menu.menuName(menuName);
     }
 
-    private int orderNumber(String menuAmount) {
-        if (!menuAmount.contains(BAR)) {
+    private int menuAmount(String menuString) {
+        String amountStr = menuString.substring(menuString.lastIndexOf(BAR) + 1).trim();
+        if (!isNumeric(amountStr)) {
             throw new NoValidateException();
         }
-        String amount = menuAmount.substring(menuAmount.lastIndexOf(BAR) + 1).trim();
-        if (!isNumeric(amount)) {
-            throw new NoValidateException();
-        }
-        return Integer.parseInt(amount);
+        return Integer.parseInt(amountStr);
     }
 
     private boolean isNumeric(String orderNumber) {

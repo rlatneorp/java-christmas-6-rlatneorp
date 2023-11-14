@@ -6,6 +6,8 @@ import christmas.domain.OrderCalculation;
 import christmas.view.InputView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import static christmas.domain.Constant.MONTH;
@@ -17,13 +19,15 @@ public class EventController {
 
     public void startEvent() {
         int day = inputView.dayQuestion();
-        List<Menu> orderMenuNames = inputView.orderMenuNames();
-        List<Integer> amounts = inputView.orderNumberValues(orderMenuNames.toString());
+        String rawMenuInput = inputView.menuInput();
+
+        List<Menu> orderMenuNames = inputView.menuNames(rawMenuInput);
+        List<Integer> amounts = inputView.menuAmounts(rawMenuInput);
 
         List<Order> orders = createOrders(orderMenuNames, amounts);
 
         OrderCalculation orderCalculation = new OrderCalculation();
-        orderCalculation.processOrders(orders, day, MONTH, YEAR);
+        orderCalculation.processOrders(orders, day);
     }
 
     private List<Order> createOrders(List<Menu> menuNames, List<Integer> amounts) {
@@ -34,6 +38,11 @@ public class EventController {
             orders.add(new Order(menu, amount));
         }
         return orders;
+    }
+
+    public static boolean isSunday(int day) {
+        Calendar calendar = new GregorianCalendar(YEAR, Calendar.DECEMBER, day);
+        return calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY;
     }
 
 }
