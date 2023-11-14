@@ -23,7 +23,6 @@ public class EventController {
         int totalDiscount = Discount.calculateTotalDiscount(orders, day);
         int totalOrderPrice = orders.stream().mapToInt(Menu::price).sum();
         int finalPrice = totalOrderPrice - totalDiscount;
-
     }
 
     public void christmasDayCheck() {

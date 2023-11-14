@@ -40,8 +40,8 @@ public enum Menu {
         return this.menuKind == MAIN_MENU;
     }
 
-    public int price() {
-        return this.menuPrice;
+    public int calculateTotalPrice(int amount) {
+        return this.menuPrice * amount;
     }
 
     public static Menu menuName(String name) {

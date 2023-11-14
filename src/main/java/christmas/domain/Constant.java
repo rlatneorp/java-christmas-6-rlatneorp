@@ -26,5 +26,12 @@ public class Constant {
     public static final int DAILY_INCREMENT = 100;
     public static final int DESERT = 3;
     public static final int MAIN_MENU = 2;
+    public static final String SANTA = "산타";
+    public static final String STAR = "별";
+    public static final String TREE = "트리";
+    public static final String X = "없음";
+    public static final int STAR_BADGE = 5000;
+    public static final int TREE_BADGE = 10000;
+    public static final int SANTA_BADGE = 20000;
 
 }
