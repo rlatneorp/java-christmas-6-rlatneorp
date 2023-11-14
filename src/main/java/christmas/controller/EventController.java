@@ -1,5 +1,6 @@
 package christmas.controller;
 
+import christmas.domain.Constant;
 import christmas.domain.Menu;
 import christmas.domain.Order;
 import christmas.domain.OrderCalculation;
@@ -10,7 +11,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import static christmas.domain.Constant.MONTH;
 import static christmas.domain.Constant.YEAR;
 
 
@@ -43,6 +43,13 @@ public class EventController {
     public static boolean isSunday(int day) {
         Calendar calendar = new GregorianCalendar(YEAR, Calendar.DECEMBER, day);
         return calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY;
+    }
+
+    public static boolean isWeekdayCheck(int day) {
+        Calendar calendar = new GregorianCalendar(Constant.YEAR, Calendar.DECEMBER, day);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+
+        return !(dayOfWeek == Calendar.FRIDAY || dayOfWeek == Calendar.SATURDAY);
     }
 
 }

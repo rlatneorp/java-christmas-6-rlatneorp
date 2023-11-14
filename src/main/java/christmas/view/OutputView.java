@@ -2,6 +2,7 @@ package christmas.view;
 
 import christmas.controller.EventController;
 import christmas.domain.Constant;
+import christmas.domain.DiscountCalculation;
 import christmas.domain.Order;
 
 import java.util.List;
@@ -26,31 +27,43 @@ public class OutputView {
     private static final String SPECIAL_SALE = "특별 할인: -";
     private static final String ONE_CHAMPAGNE = CHAMPAGNE + " 1개";
     private static final String X = "없음";
+    private static final String BAR = "-";
 
-    public static void displayOrder(List<Order> orders, int day, int totalOrderAmount, int totalDiscount, int totalBenefitAmount, int finalPaymentAmount, String giveBadge) {
+    public void displayOrder(List<Order> orders, int day, int totalOrderAmount, int finalPaymentAmount, String giveBadge) {
         System.out.println(DECEMBER_MESSAGE + day + DECEMBER_PREVIEW_MESSAGE);
         orderedMenu(orders);
         totalOrderAmount(totalOrderAmount);
         giftMenu(totalOrderAmount);
-        benefits(day, orders, totalDiscount);
+        int totalBenefitAmount = benefits(day, orders, totalOrderAmount);
         totalBenefitsAmount(totalBenefitAmount);
         finalPaymentAmount(finalPaymentAmount);
         givingBadge(giveBadge);
     }
 
-    private static void orderedMenu(List<Order> orders) {
+    private int benefits(int day, List<Order> orders, int totalOrderAmount) {
+        System.out.println(DISCOUNT_LIST);
+        int totalBenefits = 0;
+        totalBenefits += weekdayDiscount(day, orders);
+        totalBenefits += weekendMainDiscount(day, orders);
+        totalBenefits += specialDiscount(day);
+        totalBenefits += christmasDDayDiscount(day);
+        totalBenefits += giftEvent(totalOrderAmount);
+        return totalBenefits;
+    }
+
+    private void orderedMenu(List<Order> orders) {
         System.out.println(ORDER_MENU);
         for (Order order : orders) {
             order.orderInfo();
         }
     }
 
-    private static void totalOrderAmount(int totalOrderAmount) {
+    private void totalOrderAmount(int totalOrderAmount) {
         System.out.println(BEFORE_DISCOUNT_MONEY);
         System.out.println(price(totalOrderAmount) + WON);
     }
 
-    private static void giftMenu(int totalOrderAmount) {
+    private void giftMenu(int totalOrderAmount) {
         System.out.println(PRESENT);
         if (totalOrderAmount >= CHAMPAGNE_PRESENT_PRICE) {
             System.out.println(ONE_CHAMPAGNE);
@@ -60,70 +73,67 @@ public class OutputView {
         }
     }
 
-    private static void benefits(int day, List<Order> orders, int totalDiscount) {
-        System.out.println(DISCOUNT_LIST);
-        weekdayDiscount(orders);
-        weekendMainDiscount(orders);
-        specialDiscount(day);
-        christmasDDayDiscount(day);
-        giftEvent(totalDiscount);
-    }
-
-    private static void giftEvent(int totalOrderAmount) {
+    private int giftEvent(int totalOrderAmount) {
         if (totalOrderAmount >= CHAMPAGNE_PRESENT_PRICE) {
             System.out.println(GIFT_SALE);
+            return Constant.CHAMPAGNE_PRICE;
         }
+        return 0;
     }
 
-    private static void weekdayDiscount(List<Order> orders) {
-        int discount = (int) (orders.stream()
-                        .filter(Order::isDessert)
-                        .count() * Constant.WEEKDAY_DESSERT_DISCOUNT);
+    private int weekdayDiscount(int day, List<Order> orders) {
+        boolean isWeekend = !EventController.isWeekdayCheck(day);
+        int discount = DiscountCalculation.weekdayDessertDiscount(orders, isWeekend);
 
         if (discount > 0) {
             System.out.println(WEEK_SALE + price(discount) + WON);
         }
+        return discount;
     }
 
-    private static void weekendMainDiscount(List<Order> orders) {
-        int discount = (int) (orders.stream()
-                        .filter(Order::isMainMenu)
-                        .count() * Constant.WEEKEND_MAIN_DISCOUNT);
+    private int weekendMainDiscount(int day, List<Order> orders) {
+        boolean isWeekend = !EventController.isWeekdayCheck(day);
+        int discount = DiscountCalculation.weekendMainMenuDiscount(orders, isWeekend);
 
         if (discount > 0) {
             System.out.println(WEEKEND_SALE + price(discount) + WON);
         }
+        return discount;
     }
 
-    private static void specialDiscount(int day) {
+    private int specialDiscount(int day) {
         if (day == Constant.CHRISTMAS_DAY || EventController.isSunday(day)) {
             System.out.println(SPECIAL_SALE + price(Constant.SPECIAL_DISCOUNT) + WON);
+            return Constant.SPECIAL_DISCOUNT;
         }
+        return 0;
     }
 
-    private static void christmasDDayDiscount(int day) {
+    private int christmasDDayDiscount(int day) {
         if (day <= CHRISTMAS_DAY) {
             int discount = Constant.CHRISTMAS_START_DISCOUNT + (day - 1) * Constant.DAILY_INCREMENT;
-            System.out.println(CHRISTMAS_SALE+ price(discount) + WON);
+            System.out.println(CHRISTMAS_SALE + price(discount) + WON);
+            return discount;
         }
+        return 0;
     }
 
-    private static void totalBenefitsAmount(int totalBenefitAmount) {
+    private void totalBenefitsAmount(int totalBenefitAmount) {
         System.out.println(TOTAL_DISCOUNT);
-        System.out.println(price(totalBenefitAmount) + WON);
+        System.out.println(BAR + price(totalBenefitAmount) + WON);
     }
 
-    private static void finalPaymentAmount(int finalPaymentAmount) {
+    private void finalPaymentAmount(int finalPaymentAmount) {
         System.out.println(AFTER_DISCOUNT_MONEY);
         System.out.println(price(finalPaymentAmount) + WON);
     }
 
-    private static void givingBadge(String giveBadge) {
+    private void givingBadge(String giveBadge) {
         System.out.println(DECEMBER_BADGE);
         System.out.println(giveBadge);
     }
 
-    private static String price(int price) {
+    private String price(int price) {
         return String.format("%,d", price);
     }
 

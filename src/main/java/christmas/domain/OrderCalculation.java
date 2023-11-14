@@ -1,11 +1,11 @@
 package christmas.domain;
 
 import christmas.exception.NoValidateException;
-import christmas.view.OutputView;
 
 import java.util.List;
 
 import static christmas.domain.Constant.*;
+import christmas.view.OutputView;
 
 public class OrderCalculation {
 
@@ -20,8 +20,8 @@ public class OrderCalculation {
         int finalPayment = totalOrder - totalDiscount;
         String givingBadge = Badge.giveBadge(finalPayment);
         int totalBenefit = totalBenefit(orders, totalDiscount);
-
-        OutputView.displayOrder(orders, day, totalOrder, totalDiscount, totalBenefit, finalPayment, givingBadge);
+        OutputView outputView = new OutputView();
+        outputView.displayOrder(orders, day, totalOrder, finalPayment, givingBadge);
     }
 
     private void onlyDrink(List<Order> orders) {
@@ -38,7 +38,6 @@ public class OrderCalculation {
         if (orders.stream().anyMatch(order -> order.exceedsMaximumItems(MAX_ORDER_ITEMS))) {
             throw new NoValidateException();
         }
-
         if (orders.stream().allMatch(Order::drinkOnly)) {
             throw new NoValidateException();
         }
@@ -56,5 +55,4 @@ public class OrderCalculation {
         int totalOrderAmount = orders.stream().mapToInt(Order::calculatePrice).sum();
         return totalOrderAmount >= Constant.CHAMPAGNE_PRESENT_PRICE;
     }
-
 }

@@ -1,13 +1,10 @@
 package christmas.domain;
 
-import java.util.List;
-
 public class Constant {
 
     public static final int CHRISTMAS_DAY = 25;
     public static final String CHAMPAGNE = "샴페인";
     public static final int YEAR = 2023;
-    public static final int MONTH = 11;
     public static final int WEEKDAY_DESSERT_DISCOUNT = 2023;
     public static final int WEEKEND_MAIN_DISCOUNT = 2023;
     public static final int SPECIAL_DISCOUNT = 1000;

@@ -37,8 +37,9 @@ public class Order {
         return this.menu.calculateTotalPrice(this.amount);
     }
 
-    public String orderInfo() {
-        return menu.menuInfo() + " " + amount + "개";
+    public void orderInfo() {
+        String orderInfo = menu.menuInfo() + " " + amount + "개";
+        System.out.println(orderInfo);
     }
 
 }
