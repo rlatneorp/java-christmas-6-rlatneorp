@@ -19,7 +19,6 @@ public class Constant {
     public static final int STAR_BADGE = 5000;
     public static final int TREE_BADGE = 10000;
     public static final int SANTA_BADGE = 20000;
-    public static final int MIN_ORDER_AMOUNT = 10000;
     public static final int MAX_ORDER_ITEMS = 20;
 
 }
