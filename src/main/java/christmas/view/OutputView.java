@@ -48,6 +48,10 @@ public class OutputView {
         totalBenefits += specialDiscount(day);
         totalBenefits += christmasDDayDiscount(day);
         totalBenefits += giftEvent(totalOrderAmount);
+
+        if (totalBenefits == 0) {
+            System.out.println(X);
+        }
         return totalBenefits;
     }
 
@@ -82,7 +86,7 @@ public class OutputView {
     }
 
     private int weekdayDiscount(int day, List<Order> orders) {
-        boolean isWeekend = !EventController.isWeekdayCheck(day);
+        boolean isWeekend = EventController.weekdayCheck(day);
         int discount = DiscountCalculation.weekdayDessertDiscount(orders, isWeekend);
 
         if (discount > 0) {
@@ -92,7 +96,7 @@ public class OutputView {
     }
 
     private int weekendMainDiscount(int day, List<Order> orders) {
-        boolean isWeekend = !EventController.isWeekdayCheck(day);
+        boolean isWeekend = EventController.weekdayCheck(day);
         int discount = DiscountCalculation.weekendMainMenuDiscount(orders, isWeekend);
 
         if (discount > 0) {
@@ -120,7 +124,12 @@ public class OutputView {
 
     private void totalBenefitsAmount(int totalBenefitAmount) {
         System.out.println(TOTAL_DISCOUNT);
-        System.out.println(BAR + price(totalBenefitAmount) + WON);
+        if (totalBenefitAmount == 0) {
+            System.out.println(price(totalBenefitAmount) + WON);
+        }
+        if (totalBenefitAmount > 0) {
+            System.out.println(BAR + price(totalBenefitAmount) + WON);
+        }
     }
 
     private void finalPaymentAmount(int finalPaymentAmount) {

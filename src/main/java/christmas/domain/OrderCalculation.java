@@ -12,14 +12,12 @@ public class OrderCalculation {
     public void processOrders(List<Order> orders, int day) {
         validateOrder(orders);
         int totalOrder = orders.stream().mapToInt(Order::totalOrderPrice).sum();
-        if (totalOrder < MIN_ORDER_AMOUNT) {
-            throw new NoValidateException();
-        }
+
         onlyDrink(orders);
         int totalDiscount = DiscountCalculation.totalDiscount(orders, day);
         int finalPayment = totalOrder - totalDiscount;
-        String givingBadge = Badge.giveBadge(finalPayment);
-        int totalBenefit = totalBenefit(orders, totalDiscount);
+        String givingBadge = Badge.giveBadge(totalDiscount);
+        totalBenefit(orders, totalDiscount);
         OutputView outputView = new OutputView();
         outputView.displayOrder(orders, day, totalOrder, finalPayment, givingBadge);
     }

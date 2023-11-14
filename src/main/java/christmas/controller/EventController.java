@@ -18,6 +18,7 @@ public class EventController {
     private final InputView inputView = new InputView();
 
     public void startEvent() {
+        inputView.printHello();
         int day = inputView.dayQuestion();
         String rawMenuInput = inputView.menuInput();
 
@@ -45,11 +46,11 @@ public class EventController {
         return calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY;
     }
 
-    public static boolean isWeekdayCheck(int day) {
+    public static boolean weekdayCheck(int day) {
         Calendar calendar = new GregorianCalendar(Constant.YEAR, Calendar.DECEMBER, day);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
 
-        return !(dayOfWeek == Calendar.FRIDAY || dayOfWeek == Calendar.SATURDAY);
+        return dayOfWeek == Calendar.FRIDAY || dayOfWeek == Calendar.SATURDAY;
     }
 
 }
